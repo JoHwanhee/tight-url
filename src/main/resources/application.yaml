@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: home-service
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    generate-ddl: false
+    database: mysql
+    defer-datasource-initialization: true
