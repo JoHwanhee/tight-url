@@ -8,3 +8,7 @@ spring:
     generate-ddl: false
     database: mysql
     defer-datasource-initialization: true
+
+server:
+  tomcat:
+    max-threads: 80
