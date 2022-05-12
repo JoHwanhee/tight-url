@@ -2,39 +2,287 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:image" content="/images/ogtag.png"/>
+    <meta property="og:image:width" content="800" />
+    <meta property="og:image:height" content="400" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/ico" href="${pageContext.request.contextPath}/resources/static/images/favicon.ico">
+    <title>Tight url</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        html, body {
+            font-family: 'Montserrat Alternates', sans-serif;
+            color: #FFFFFF;
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        *, *:before, *:after {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+        a, a:visited, a:hover {
+            color: inherit;
+            text-decoration: none;
+        }
+        main {
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 0 auto;
+            padding: 0 26px;
+            width: 100%;
+            height: 100%;
+            background: rgba(154,57,163,1);
+            background: -moz-linear-gradient(-45deg, rgba(154,57,163,1) 0%, rgba(65,103,168,1) 100%);
+            background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(154,57,163,1)), color-stop(100%, rgba(65,103,168,1)));
+            background: -webkit-linear-gradient(-45deg, rgba(154,57,163,1) 0%, rgba(65,103,168,1) 100%);
+            background: -o-linear-gradient(-45deg, rgba(154,57,163,1) 0%, rgba(65,103,168,1) 100%);
+            background: -ms-linear-gradient(-45deg, rgba(154,57,163,1) 0%, rgba(65,103,168,1) 100%);
+            background: linear-gradient(135deg, rgba(154,57,163,1) 0%, rgba(65,103,168,1) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9a39a3', endColorstr='#4167a8', GradientType=1 );
+        }
+        h1 {
+            display: block;
+            margin: 0 auto 25px auto;
+            text-align: center;
+            font-size: 1.92em;
+            font-weight: 600;
+            letter-spacing: -0.055em;
+        }
+        h2 {
+            display: block;
+            margin: 0 auto 60px auto;
+            text-align: center;
+            font-weight: 400;
+            font-size: 1.25em;
+            letter-spacing: -0.015em;
+        }
+        .container {
+            position: relative;
+            margin: calc(75px + 2vh + 2vw) auto 0 auto;
+            padding: 0;
+            width: 100%;
+            max-width: 840px;
+        }
+        .search-box {
+            position: relative;
+            width: 100%;
+            max-width: 360px;
+            height: 60px;
+            border-radius: 120px;
+            margin: 0 auto;
+        }
+        .search-result-box {
+            position: relative;
+            width: 100%;
+            max-width: 360px;
+            height: 60px;
+            border-radius: 120px;
+            margin: 0 auto;
+        }
+        .search-result-text{
+            position: absolute;
+            top: 0;
+            height: 60px;
+            width: 100%;
+            max-width: 360px;
+            line-height: 61px;
+            text-align: center;
+        }
+        .search-result-icon{
+            position: absolute;
+            top: 0;
+            height: 60px;
+            width: 100%;
+            max-width: 100px;
+            line-height: 61px;
+            text-align: right;
+        }
+        .go-icon {
+            position: absolute;
+            top: 0;
+            height: 60px;
+            width: 86px;
+            line-height: 61px;
+            text-align: center;
+            right: 0;
+            font-size: 1.38em;
+            will-change: opacity;
+            cursor: pointer;
+            opacity: 100;
+
+        }
+        .search-border {
+            display: block;
+            width: 100%;
+            max-width: 360px;
+            height: 60px;
+        }
+        .border {
+            fill: none;
+            stroke: #FFFFFF;
+            stroke-width: 5;
+            stroke-miterlimit: 10;
+        }
+        .border {
+            stroke-dasharray: 740;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 400ms cubic-bezier(0.600, 0.040, 0.735, 0.990);
+            -webkit-transition: stroke-dashoffset 400ms cubic-bezier(0.600, 0.040, 0.735, 0.990);
+            -moz-transition: stroke-dashoffset 400ms cubic-bezier(0.600, 0.040, 0.735, 0.990);
+            -o-transition: stroke-dashoffset 400ms cubic-bezier(0.600, 0.040, 0.735, 0.990);
+        }
+        .border-searching .border {
+            stroke-dasharray: 740;
+            stroke-dashoffset: 459;
+            transition: stroke-dashoffset 650ms cubic-bezier(0.755, 0.150, 0.205, 1.000);
+            -webkit-transition: stroke-dashoffset 650ms cubic-bezier(0.755, 0.150, 0.205, 1.000);
+            -moz-transition: stroke-dashoffset 650ms cubic-bezier(0.755, 0.150, 0.205, 1.000);
+            -o-transition: stroke-dashoffset 650ms cubic-bezier(0.755, 0.150, 0.205, 1.000);
+        }
+        #url {
+            font-family: 'Montserrat Alternates', sans-serif;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 120px;
+            border: none;
+            background: rgba(255,255,255,0);
+            padding: 0 60px 0 30px;
+            color: #FFFFFF;
+            font-size: 1.32em;
+            font-weight: 400;
+            letter-spacing: -0.015em;
+            outline: none;
+        }
+        #url::-webkit-input-placeholder {color: #FFFFFF;}
+        #url::-moz-placeholder {color: #FFFFFF;}
+        #url:-ms-input-placeholder {color: #FFFFFF;}
+        #url:-moz-placeholder {color: #FFFFFF;}
+        #url::-moz-selection {color: #FFFFFF; background: rgba(0,0,0,0.25);}
+        #url::selection {color: #FFFFFF; background: rgba(0,0,0,0.25);}
+
+    </style>
 </head>
 <body>
+    <main>
+        <form method="post"
+              id="search-form"
+              class="search-form"
+              action="/home/shorten-urls">
+            <div class="container">
+                <h1>Tight the url</h1>
+                <h2>The url can be simple!</h2>
 
-<h1>안녕하삼</h1>
-<form method="post"
-      action="/home/shorten-urls"
->
-    <label for="url">URL 입력하삼</label>
-    <input id="url" name="url" placeholder="https://www.google.com">
-    <button type="submit">등록</button>
-</form>
+                <div class="search-box">
+                    <input type="text" id="url" name="url" placeholder="Shorten your link" autocomplete="off">
 
-<p th:text="${url}"></p>
-<!--<input type="text" value="Hello World" id="myInput">-->
-<!--<button onclick="myFunction()">Copy text</button>-->
+                    <svg class="search-border" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink"
+                         xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" viewBox="0 0 671 111" style="enable-background:new 0 0 671 111;"
+                         xml:space="preserve">
+                        <path class="border" d="M335.5,108.5h-280c-29.3,0-53-23.7-53-53v0c0-29.3,23.7-53,53-53h280"/>
+                        <path class="border" d="M335.5,108.5h280c29.3,0,53-23.7,53-53v0c0-29.3-23.7-53-53-53h-280"/>
+                    </svg>
 
-<!--<script>-->
-<!--    function myFunction() {-->
-<!--        /* Get the text field */-->
-<!--        var copyText = document.getElementById("myInput");-->
+                    <div class="go-icon" onclick='hello()'>
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
 
-<!--        /* Select the text field */-->
-<!--        copyText.select();-->
-<!--        copyText.setSelectionRange(0, 99999); /* For mobile devices */-->
+                </div>
 
-<!--        /* Copy the text inside the text field */-->
-<!--        navigator.clipboard.writeText(copyText.value);-->
+                <div class="search-result-box">
+                    <div class="search-result-text">
+                        <p th:text="${url}" >No result !</p>
+                    </div>
 
-<!--        /* Alert the copied text */-->
-<!--        alert("Copied the text: " + copyText.value);-->
-<!--    }-->
-<!--</script>-->
-
+                </div>
+            </div>
+        </form>
+    </main>
 </body>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    let url = /*[[${url}]]*/;
+
+    function hello()  {
+        const form = document.getElementById("search-form");
+        form.submit();
+    }
+
+    function fallbackCopyTextToClipboard(text) {
+        let textArea = document.createElement("textarea");
+        textArea.value = text;
+
+        textArea.style.top = "0";
+        textArea.style.left = "0";
+        textArea.style.position = "fixed";
+
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+
+        try {
+            let successful = document.execCommand('copy');
+            let msg = successful ? 'successful' : 'unsuccessful';
+            console.log('Fallback: Copying text command was ' + msg);
+        } catch (err) {
+            console.error('Fallback: Oops, unable to copy', err);
+        }
+
+        document.body.removeChild(textArea);
+    }
+
+    function copyTextToClipboard(text) {
+        if (!navigator.clipboard) {
+            fallbackCopyTextToClipboard(text);
+            return;
+        }
+        navigator.clipboard.writeText(text).then(function() {
+            console.log('Async: Copying to clipboard was successful!');
+            window.alert('주소가 복사 되었습니다~ 공유해 보세요!')
+        }, function(err) {
+            console.error('Async: Could not copy text: ', err);
+        });
+    }
+
+    function checkMobile(){
+        let varUA = navigator.userAgent.toLowerCase();
+        if ( varUA.indexOf('android') > -1) {
+            return "android";
+        } else if ( varUA.indexOf("iphone") > -1||varUA.indexOf("ipad") > -1||varUA.indexOf("ipod") > -1 ) {
+            return "ios";
+        } else {
+            return "other";
+        }
+    }
+
+    const shareButton = document.querySelector('#search-result-box');
+    shareButton.addEventListener("click", async () => {
+        let mobileType = checkMobile()
+
+        if (mobileType === "android" || mobileType === "ios") {
+            await navigator.share({
+                title: 'Tight url',
+                text: 'The url can be simple!',
+                url: url,
+            });
+        }
+        else {
+            copyTextToClipboard(url)
+        }
+    });
+    /*]]>*/
+</script>
 </html>

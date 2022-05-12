@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,25 +21,31 @@ public class HomeController {
         this.shortenRegisterService = shortenRegisterService;
     }
 
-    @GetMapping("/")
-    public String home() {
-        return "home";
-    }
-
     @PostMapping("/home/shorten-urls")
-    public String post(
+    public ModelAndView post(
             HttpServletRequest request,
             RequestRegisterUrlForm form,
-            Model model)
+            RedirectAttributes re
+            )
     {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("redirect:/");
+        if(form.getUrl().equals("")) {
+            return mav;
+        }
         ResponseRegisterShorten shorten = shortenRegisterService.register(form.getUrl());
-
         String baseUrl = request.getRequestURL()
                 .toString()
                 .replace("/home/shorten-urls", "")
                 .replace("http://", "https://");
         String url =  baseUrl + "/" + shorten.getTag();
-        model.addAttribute("url",url);
+        re.addFlashAttribute("url", url);
+        return mav;
+    }
+
+    @GetMapping("/")
+    public String home() {
         return "home";
     }
+
 }
