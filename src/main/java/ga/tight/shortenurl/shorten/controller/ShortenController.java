@@ -6,6 +6,7 @@ import ga.tight.shortenurl.shorten.dto.response.ResponseQueryShorten;
 import ga.tight.shortenurl.shorten.dto.response.ResponseRegisterShorten;
 import ga.tight.shortenurl.shorten.service.ShortenQueryService;
 import ga.tight.shortenurl.shorten.service.ShortenRegisterService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -29,10 +30,18 @@ public class ShortenController {
     public RedirectView redirectUrl(
             @PathVariable("tag") String tag
     ) {
-        ResponseQueryShorten url = shortenQueryService.findByTag(tag);
-        RedirectView redirectView = new RedirectView(url.getFullUrl());
-        redirectView.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
-        return redirectView;
+        try
+        {
+            ResponseQueryShorten url = shortenQueryService.findByTag(tag);
+            RedirectView redirectView = new RedirectView(url.getFullUrl());
+            redirectView.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
+            return redirectView;
+        }
+        catch (Exception e) {
+            RedirectView redirectView = new RedirectView("/");
+            redirectView.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
+            return redirectView;
+        }
     }
 
     @PostMapping("/api/shorten-urls")

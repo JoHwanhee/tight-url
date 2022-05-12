@@ -6,6 +6,7 @@ import ga.tight.shortenurl.shorten.domain.Tag;
 import ga.tight.shortenurl.shorten.dto.response.ResponseQueryShorten;
 import ga.tight.shortenurl.shorten.repository.ShortenRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ public class ShortenQueryService {
         this.shortenRepository = shortenRepository;
     }
 
+    @Cacheable(value = "tag", key = "#tag")
     public ResponseQueryShorten findByTag(String tag) {
         log.info(tag);
 
