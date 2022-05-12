@@ -13,17 +13,12 @@ import java.util.Collections;
 
 @Configuration
 public class Configurations implements WebMvcConfigurer {
-
-    //j-session 삭제
     @Bean
     public ServletContextInitializer clearJsession() {
-        return new ServletContextInitializer() {
-            @Override
-            public void onStartup(ServletContext servletContext) throws ServletException {
-               servletContext.setSessionTrackingModes(Collections.singleton(SessionTrackingMode.COOKIE));
-               SessionCookieConfig sessionCookieConfig=servletContext.getSessionCookieConfig();
-               sessionCookieConfig.setHttpOnly(true);
-            }
+        return servletContext -> {
+           servletContext.setSessionTrackingModes(Collections.singleton(SessionTrackingMode.COOKIE));
+           SessionCookieConfig sessionCookieConfig=servletContext.getSessionCookieConfig();
+           sessionCookieConfig.setHttpOnly(true);
         };
     }
 }

@@ -1,4 +1,4 @@
-package ga.tight.shortenurl.shorten.domain;
+package ga.tight.shortenurl.shorten.domain.url;
 
 import ga.tight.shortenurl.gloabl.NullChecker;
 import lombok.Getter;

@@ -20,7 +20,7 @@ class UrlCheckerTest {
     }
 
     @Test
-    @DisplayName("스키마가 있는 경우")
+    @DisplayName("http 스키마가 있는 경우")
     void has_scheme() {
         String converted = UrlChecker.convertValidatedUrl("http://www.naver.com");
         assertThat(converted).isEqualTo("http://www.naver.com");

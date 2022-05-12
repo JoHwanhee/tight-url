@@ -5,7 +5,7 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
-    generate-ddl: false
+    generate-ddl: true
     database: mysql
     defer-datasource-initialization: true
 

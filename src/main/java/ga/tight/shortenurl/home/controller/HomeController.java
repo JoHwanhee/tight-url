@@ -1,10 +1,11 @@
 package ga.tight.shortenurl.home.controller;
 
 import ga.tight.shortenurl.home.dto.RequestRegisterUrlForm;
-import ga.tight.shortenurl.shorten.dto.response.ResponseRegisterShorten;
+import ga.tight.shortenurl.shorten.dto.request.RequestRegisterShortenDto;
+import ga.tight.shortenurl.shorten.dto.response.ResponseRegisterShortenDto;
 import ga.tight.shortenurl.shorten.service.ShortenRegisterService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,9 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 public class HomeController {
 
     private final ShortenRegisterService shortenRegisterService;
+    private final ModelMapper modelMapper;
 
-    public HomeController(ShortenRegisterService shortenRegisterService) {
+    public HomeController(ShortenRegisterService shortenRegisterService, ModelMapper modelMapper) {
         this.shortenRegisterService = shortenRegisterService;
+        this.modelMapper = modelMapper;
     }
 
     @PostMapping("/home/shorten-urls")
@@ -30,16 +33,15 @@ public class HomeController {
     {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("redirect:/");
+
         if(form.getUrl().equals("")) {
             return mav;
         }
-        ResponseRegisterShorten shorten = shortenRegisterService.register(form.getUrl());
-        String baseUrl = request.getRequestURL()
-                .toString()
-                .replace("/home/shorten-urls", "")
-                .replace("http://", "https://");
-        String url =  baseUrl + "/" + shorten.getTag();
-        re.addFlashAttribute("url", url);
+
+        ResponseRegisterShortenDto shorten = shortenRegisterService.register(modelMapper.map(form, RequestRegisterShortenDto.class));
+        String baseUrl = request.getRequestURL().toString();
+        re.addFlashAttribute("url", shorten.mergeUrl(baseUrl));
+
         return mav;
     }
 

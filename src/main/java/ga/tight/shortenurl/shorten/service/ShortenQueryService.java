@@ -1,10 +1,12 @@
 package ga.tight.shortenurl.shorten.service;
 
 import ga.tight.shortenurl.gloabl.NullChecker;
-import ga.tight.shortenurl.shorten.domain.ShortenUrl;
-import ga.tight.shortenurl.shorten.domain.Tag;
+import ga.tight.shortenurl.shorten.domain.statistics.Statistics;
+import ga.tight.shortenurl.shorten.domain.url.ShortenUrl;
+import ga.tight.shortenurl.shorten.domain.url.Tag;
 import ga.tight.shortenurl.shorten.dto.response.ResponseQueryShorten;
 import ga.tight.shortenurl.shorten.repository.ShortenRepository;
+import ga.tight.shortenurl.shorten.repository.StatisticsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -15,9 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class ShortenQueryService {
     private final ShortenRepository shortenRepository;
+    private final StatisticsRepository statisticsRepository;
 
-    public ShortenQueryService(ShortenRepository shortenRepository) {
+    public ShortenQueryService(ShortenRepository shortenRepository, StatisticsRepository statisticsRepository) {
         this.shortenRepository = shortenRepository;
+        this.statisticsRepository = statisticsRepository;
     }
 
     @Cacheable(value = "tag", key = "#tag")
@@ -25,10 +29,17 @@ public class ShortenQueryService {
         log.info(tag);
 
         String tagToFind = NullChecker.orElseThrow(tag);
+        ShortenUrl url = shortenRepository.findShortenUrlByTag(Tag.of(tagToFind))
+                .orElseThrow(() -> new IllegalArgumentException("has no value"));
+
+        Statistics statistics = statisticsRepository.findByShortenUrl(url)
+                .orElse(new Statistics(url, 0L));
+        statistics.increase();
+
+        statisticsRepository.save(statistics);
+
         return new ResponseQueryShorten(
-                shortenRepository.findShortenUrlByTag(Tag.of(tagToFind))
-                        .orElseThrow(() -> new IllegalArgumentException("has no value"))
-                        .getRedirectUrl()
+                url.getRedirectUrl()
         );
     }
 }

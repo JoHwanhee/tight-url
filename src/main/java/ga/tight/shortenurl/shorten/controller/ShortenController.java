@@ -1,20 +1,18 @@
 package ga.tight.shortenurl.shorten.controller;
 
-import ga.tight.shortenurl.shorten.domain.ShortenUrl;
-import ga.tight.shortenurl.shorten.dto.request.CreateShorten;
+import ga.tight.shortenurl.shorten.dto.request.RequestRegisterShortenDto;
 import ga.tight.shortenurl.shorten.dto.response.ResponseQueryShorten;
-import ga.tight.shortenurl.shorten.dto.response.ResponseRegisterShorten;
+import ga.tight.shortenurl.shorten.dto.response.ResponseRegisterShortenDto;
 import ga.tight.shortenurl.shorten.service.ShortenQueryService;
 import ga.tight.shortenurl.shorten.service.ShortenRegisterService;
-import org.springframework.cache.annotation.Cacheable;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.websocket.server.PathParam;
-
 @Controller
+@Slf4j
 public class ShortenController {
 
     private final ShortenRegisterService shortenRegisterService;
@@ -38,6 +36,7 @@ public class ShortenController {
             return redirectView;
         }
         catch (Exception e) {
+            log.error(e.getMessage(), e.getCause());
             RedirectView redirectView = new RedirectView("/");
             redirectView.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
             return redirectView;
@@ -46,9 +45,9 @@ public class ShortenController {
 
     @PostMapping("/api/shorten-urls")
     @ResponseBody
-    public ResponseRegisterShorten postUrls(
-            @RequestBody() CreateShorten body
+    public ResponseRegisterShortenDto postUrls(
+            @RequestBody() RequestRegisterShortenDto body
     ) {
-        return shortenRegisterService.register(body.getUrl());
+        return shortenRegisterService.register(body);
     }
 }

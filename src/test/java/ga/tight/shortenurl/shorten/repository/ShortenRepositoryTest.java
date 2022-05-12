@@ -1,7 +1,7 @@
 package ga.tight.shortenurl.shorten.repository;
 
-import ga.tight.shortenurl.shorten.domain.ShortenUrl;
-import ga.tight.shortenurl.shorten.domain.Tag;
+import ga.tight.shortenurl.shorten.domain.url.ShortenUrl;
+import ga.tight.shortenurl.shorten.domain.url.Tag;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
