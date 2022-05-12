@@ -17,7 +17,7 @@ public class ShortenUrl {
 
     @Embedded
     @AttributeOverride(name = "url", column = @Column(name = "url"))
-    private Url url;
+    private OriginUrl url;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -25,7 +25,7 @@ public class ShortenUrl {
     public static ShortenUrl of(String value) {
         ShortenUrl shortenUrl = new ShortenUrl();
         shortenUrl.tag = Tag.generateRandom();
-        shortenUrl.url = Url.of(value);
+        shortenUrl.url = OriginUrl.of(value);
         return shortenUrl;
     }
 

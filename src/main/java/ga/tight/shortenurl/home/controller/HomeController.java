@@ -31,11 +31,13 @@ public class HomeController {
             Model model)
     {
         ResponseRegisterShorten shorten = shortenRegisterService.register(form.getUrl());
-        String baseUrl = request.getRequestURL().toString().replace("/home/shorten-urls", "");
+
+        String baseUrl = request.getRequestURL()
+                .toString()
+                .replace("/home/shorten-urls", "")
+                .replace("http://", "https://");
         String url =  baseUrl + "/" + shorten.getTag();
-
         model.addAttribute("url",url);
-
         return "home";
     }
 }
