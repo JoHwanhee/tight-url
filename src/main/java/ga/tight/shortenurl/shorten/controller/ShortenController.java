@@ -1,6 +1,6 @@
 package ga.tight.shortenurl.shorten.controller;
 
-import ga.tight.shortenurl.shorten.dto.request.RequestRegisterShortenDto;
+import ga.tight.shortenurl.shorten.dto.request.RegisterShortenDto;
 import ga.tight.shortenurl.shorten.dto.response.ResponseQueryShorten;
 import ga.tight.shortenurl.shorten.dto.response.ResponseRegisterShortenDto;
 import ga.tight.shortenurl.shorten.service.ShortenQueryService;
@@ -46,7 +46,7 @@ public class ShortenController {
     @PostMapping("/api/shorten-urls")
     @ResponseBody
     public ResponseRegisterShortenDto postUrls(
-            @RequestBody() RequestRegisterShortenDto body
+            @RequestBody() RegisterShortenDto body
     ) {
         return shortenRegisterService.register(body);
     }

@@ -1,7 +1,7 @@
 package ga.tight.shortenurl.shorten.domain;
 
 import ga.tight.shortenurl.shorten.domain.url.ShortenUrl;
-import ga.tight.shortenurl.shorten.domain.user.User;
+import ga.tight.shortenurl.gloabl.user.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EmptySource;

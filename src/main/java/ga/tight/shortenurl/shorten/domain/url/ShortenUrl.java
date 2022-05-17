@@ -1,6 +1,6 @@
 package ga.tight.shortenurl.shorten.domain.url;
 
-import ga.tight.shortenurl.shorten.domain.user.User;
+import ga.tight.shortenurl.gloabl.user.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;

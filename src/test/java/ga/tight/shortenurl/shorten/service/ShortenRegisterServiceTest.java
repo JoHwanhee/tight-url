@@ -3,8 +3,8 @@ package ga.tight.shortenurl.shorten.service;
 import ga.tight.shortenurl.shorten.domain.statistics.Statistics;
 import ga.tight.shortenurl.shorten.domain.url.ShortenUrl;
 import ga.tight.shortenurl.shorten.domain.url.Tag;
-import ga.tight.shortenurl.shorten.domain.user.User;
-import ga.tight.shortenurl.shorten.dto.request.RequestRegisterShortenDto;
+import ga.tight.shortenurl.gloabl.user.User;
+import ga.tight.shortenurl.shorten.dto.request.RegisterShortenDto;
 import ga.tight.shortenurl.shorten.dto.response.ResponseRegisterShortenDto;
 import ga.tight.shortenurl.shorten.repository.ShortenRepository;
 import ga.tight.shortenurl.shorten.repository.StatisticsRepository;
@@ -37,9 +37,9 @@ class ShortenRegisterServiceTest {
     @DisplayName("유저 가 null 일때")
     @Test
     void create() {
-        RequestRegisterShortenDto requestRegisterShortenDto = new RequestRegisterShortenDto(null, "https://www.naver.com");
+        RegisterShortenDto registerShortenDto = new RegisterShortenDto(null, "https://www.naver.com");
 
-        ResponseRegisterShortenDto responseDto = registerService.register(requestRegisterShortenDto);
+        ResponseRegisterShortenDto responseDto = registerService.register(registerShortenDto);
 
         assertThat(responseDto.getTag().length()).isEqualTo(6);
     }
@@ -48,10 +48,10 @@ class ShortenRegisterServiceTest {
     @Test
     void create2() {
         // given
-        RequestRegisterShortenDto requestRegisterShortenDto = new RequestRegisterShortenDto(0L, "https://www.naver.com");
+        RegisterShortenDto registerShortenDto = new RegisterShortenDto(0L, "https://www.naver.com");
 
         // when
-        ResponseRegisterShortenDto responseDto = registerService.register(requestRegisterShortenDto);
+        ResponseRegisterShortenDto responseDto = registerService.register(registerShortenDto);
 
         // then
         Tag tag = Tag.of(responseDto.getTag());
@@ -71,10 +71,10 @@ class ShortenRegisterServiceTest {
         // given
         User user = User.builder().mail("kikiki0611@gmail.com").build();
         User savedUser = userRepository.save(user);
-        RequestRegisterShortenDto requestRegisterShortenDto = new RequestRegisterShortenDto(savedUser.getId(), "https://www.naver.com");
+        RegisterShortenDto registerShortenDto = new RegisterShortenDto(savedUser.getId(), "https://www.naver.com");
 
         // when
-        ResponseRegisterShortenDto responseDto = registerService.register(requestRegisterShortenDto);
+        ResponseRegisterShortenDto responseDto = registerService.register(registerShortenDto);
 
         // then
         Tag tag = Tag.of(responseDto.getTag());

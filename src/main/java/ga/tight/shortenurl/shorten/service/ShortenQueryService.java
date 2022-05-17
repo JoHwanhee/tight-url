@@ -12,6 +12,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 @Slf4j
@@ -26,9 +29,8 @@ public class ShortenQueryService {
 
     @Cacheable(value = "tag", key = "#tag")
     public ResponseQueryShorten findByTag(String tag) {
-        log.info(tag);
-
         String tagToFind = NullChecker.orElseThrow(tag);
+
         ShortenUrl url = shortenRepository.findShortenUrlByTag(Tag.of(tagToFind))
                 .orElseThrow(() -> new IllegalArgumentException("has no value"));
 
@@ -41,5 +43,15 @@ public class ShortenQueryService {
         return new ResponseQueryShorten(
                 url.getRedirectUrl()
         );
+    }
+
+    public List<ResponseQueryShorten> findByUserId(Long id) {
+        List<ShortenUrl> urls = shortenRepository.findByUserId(id);
+
+        return urls.stream()
+                   .map(url -> new ResponseQueryShorten(
+                           url.getRedirectUrl()
+                   ))
+                .collect(Collectors.toList());
     }
 }

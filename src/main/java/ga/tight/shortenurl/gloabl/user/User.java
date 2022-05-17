@@ -1,4 +1,4 @@
-package ga.tight.shortenurl.shorten.domain.user;
+package ga.tight.shortenurl.gloabl.user;
 
 import ga.tight.shortenurl.shorten.domain.url.ShortenUrl;
 import lombok.AccessLevel;
@@ -27,5 +27,9 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+
+    public String getMail() {
+        return mail;
     }
 }

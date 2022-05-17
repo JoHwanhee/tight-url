@@ -1,7 +1,7 @@
 package ga.tight.shortenurl.home.controller;
 
 import ga.tight.shortenurl.home.dto.RequestRegisterUrlForm;
-import ga.tight.shortenurl.shorten.dto.request.RequestRegisterShortenDto;
+import ga.tight.shortenurl.shorten.dto.request.RegisterShortenDto;
 import ga.tight.shortenurl.shorten.dto.response.ResponseRegisterShortenDto;
 import ga.tight.shortenurl.shorten.service.ShortenRegisterService;
 import org.modelmapper.ModelMapper;
@@ -38,7 +38,7 @@ public class HomeController {
             return mav;
         }
 
-        ResponseRegisterShortenDto shorten = shortenRegisterService.register(modelMapper.map(form, RequestRegisterShortenDto.class));
+        ResponseRegisterShortenDto shorten = shortenRegisterService.register(modelMapper.map(form, RegisterShortenDto.class));
         String baseUrl = request.getRequestURL().toString();
         re.addFlashAttribute("url", shorten.mergeUrl(baseUrl));
 
