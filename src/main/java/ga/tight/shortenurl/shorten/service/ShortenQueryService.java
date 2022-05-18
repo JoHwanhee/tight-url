@@ -29,9 +29,8 @@ public class ShortenQueryService {
 
     @Cacheable(value = "tag", key = "#tag")
     public ResponseQueryShorten findByTag(String tag) {
-        String tagToFind = NullChecker.orElseThrow(tag);
-
-        ShortenUrl url = shortenRepository.findShortenUrlByTag(Tag.of(tagToFind))
+        Tag tagToFind = Tag.of(NullChecker.orElseThrow(tag));
+        ShortenUrl url = shortenRepository.findShortenUrlByTagHashCode(tagToFind.hash())
                 .orElseThrow(() -> new IllegalArgumentException("has no value"));
 
         Statistics statistics = statisticsRepository.findByShortenUrl(url)

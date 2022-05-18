@@ -7,13 +7,12 @@ spring:
         format_sql: true
 
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
     generate-ddl: true
     database: mysql
     defer-datasource-initialization: true
 
-server:
-  tomcat:
-    threads:
-      max: 20
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:mysql:5.7:///shortenurl

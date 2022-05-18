@@ -13,12 +13,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
+@ActiveProfiles("test")
 class ShortenRegisterServiceTest {
 
     @Autowired
@@ -39,9 +41,9 @@ class ShortenRegisterServiceTest {
     void create() {
         RegisterShortenDto registerShortenDto = new RegisterShortenDto(null, "https://www.naver.com");
 
-        ResponseRegisterShortenDto responseDto = registerService.register(registerShortenDto);
+        ShortenUrl shortenUrl = registerService.register(registerShortenDto);
 
-        assertThat(responseDto.getTag().length()).isEqualTo(6);
+        assertThat(shortenUrl.getTagValue().length()).isEqualTo(6);
     }
 
     @DisplayName("없는 유저 넘버로 요청할 때")
@@ -51,15 +53,15 @@ class ShortenRegisterServiceTest {
         RegisterShortenDto registerShortenDto = new RegisterShortenDto(0L, "https://www.naver.com");
 
         // when
-        ResponseRegisterShortenDto responseDto = registerService.register(registerShortenDto);
+        ShortenUrl res = registerService.register(registerShortenDto);
 
         // then
-        Tag tag = Tag.of(responseDto.getTag());
-        ShortenUrl saved = repository.findShortenUrlByTag(tag).get();
+        Tag tag = Tag.of(res.getTagValue());
+        ShortenUrl saved = repository.findShortenUrlByTagHashCode(tag.hash()).get();
         Statistics statistics = statisticsRepository.findByShortenUrl(saved).get();
 
-        assertThat(responseDto.getTag().length()).isEqualTo(6);
-        assertThat(responseDto.getTag()).isEqualTo(saved.getTagValue());
+        assertThat(res.getTagValue().length()).isEqualTo(6);
+        assertThat(res.getTagValue()).isEqualTo(saved.getTagValue());
         assertThat(saved.hasUser()).isEqualTo(false);
         assertThat(statistics.getCount()).isEqualTo(0);
     }
@@ -74,15 +76,15 @@ class ShortenRegisterServiceTest {
         RegisterShortenDto registerShortenDto = new RegisterShortenDto(savedUser.getId(), "https://www.naver.com");
 
         // when
-        ResponseRegisterShortenDto responseDto = registerService.register(registerShortenDto);
+        ShortenUrl res = registerService.register(registerShortenDto);
 
         // then
-        Tag tag = Tag.of(responseDto.getTag());
-        ShortenUrl saved = repository.findShortenUrlByTag(tag).get();
+        Tag tag = Tag.of(res.getTagValue());
+        ShortenUrl saved = repository.findShortenUrlByTagHashCode(tag.hash()).get();
         Statistics statistics = statisticsRepository.findByShortenUrl(saved).get();
 
-        assertThat(responseDto.getTag().length()).isEqualTo(6);
-        assertThat(responseDto.getTag()).isEqualTo(saved.getTagValue());
+        assertThat(res.getTagValue().length()).isEqualTo(6);
+        assertThat(res.getTagValue()).isEqualTo(saved.getTagValue());
         assertThat(saved.hasUser()).isEqualTo(true);
         assertThat(saved.getUser().getId()).isEqualTo(savedUser.getId());
         assertThat(statistics.getCount()).isEqualTo(0);

@@ -20,6 +20,8 @@ public class ShortenUrl {
     @AttributeOverride(name = "tag", column = @Column(name = "tag"))
     private Tag tag;
 
+    private Long tagHashCode;
+
     @Embedded
     @AttributeOverride(name = "url", column = @Column(name = "url"))
     private OriginUrl url;
@@ -27,22 +29,20 @@ public class ShortenUrl {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @Builder()
     public ShortenUrl(Tag tag, OriginUrl url, User user) {
         this.tag = tag;
+        this.tagHashCode = tag.hash();
         this.url = url;
         this.user = user;
     }
 
     public static ShortenUrl of(String value) {
-        return ShortenUrl.builder()
-                .tag(Tag.generateRandom())
-                .url(OriginUrl.of(value))
-                .build();
+        return of(value, null);
     }
 
     public static ShortenUrl of(String value, User user) {
@@ -67,6 +67,10 @@ public class ShortenUrl {
 
     public String getRedirectUrl() {
         return url.getUrl();
+    }
+
+    public Tag getTag() {
+        return tag;
     }
 
     @Override

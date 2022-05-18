@@ -14,6 +14,12 @@ configurations {
     }
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "org.testcontainers:testcontainers-bom:1.16.3"
+    }
+}
+
 repositories {
     mavenCentral()
 }
@@ -23,15 +29,20 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
-    implementation ("org.modelmapper:modelmapper:2.3.8")
+    implementation 'org.modelmapper:modelmapper:2.3.8'
     implementation 'mysql:mysql-connector-java'
-
-    implementation group: 'com.google.zxing', name: 'core', version: '3.4.1'
-    implementation group: 'com.google.zxing', name: 'javase', version: '3.4.1'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+
+
+    testImplementation 'org.testcontainers:testcontainers:1.16.3'
+    testImplementation 'org.testcontainers:mysql'
+    testImplementation 'org.testcontainers:jdbc:1.16.3'
+    testImplementation 'org.testcontainers:junit-jupiter:1.16.3'
 }
 
 tasks.named('test') {

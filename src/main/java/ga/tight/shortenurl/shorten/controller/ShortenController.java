@@ -1,10 +1,12 @@
 package ga.tight.shortenurl.shorten.controller;
 
+import ga.tight.shortenurl.shorten.domain.url.ShortenUrl;
 import ga.tight.shortenurl.shorten.dto.request.RegisterShortenDto;
 import ga.tight.shortenurl.shorten.dto.response.ResponseQueryShorten;
 import ga.tight.shortenurl.shorten.dto.response.ResponseRegisterShortenDto;
 import ga.tight.shortenurl.shorten.service.ShortenQueryService;
 import ga.tight.shortenurl.shorten.service.ShortenRegisterService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -12,17 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
+@AllArgsConstructor
 @Slf4j
 public class ShortenController {
-
     private final ShortenRegisterService shortenRegisterService;
     private final ShortenQueryService shortenQueryService;
-
-    public ShortenController(ShortenRegisterService shortenRegisterService,
-                             ShortenQueryService shortenQueryService) {
-        this.shortenRegisterService = shortenRegisterService;
-        this.shortenQueryService = shortenQueryService;
-    }
 
     @GetMapping("/{tag}")
     public RedirectView redirectUrl(
@@ -48,6 +44,7 @@ public class ShortenController {
     public ResponseRegisterShortenDto postUrls(
             @RequestBody() RegisterShortenDto body
     ) {
-        return shortenRegisterService.register(body);
+        ShortenUrl shortenUrl = shortenRegisterService.register(body);
+        return ResponseRegisterShortenDto.of(shortenUrl);
     }
 }

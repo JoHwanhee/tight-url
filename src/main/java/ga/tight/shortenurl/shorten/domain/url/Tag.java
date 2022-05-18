@@ -1,9 +1,11 @@
 package ga.tight.shortenurl.shorten.domain.url;
 
 import ga.tight.shortenurl.gloabl.NullChecker;
+import ga.tight.shortenurl.gloabl.Utils;
 import lombok.Getter;
 
 import javax.persistence.Embeddable;
+import java.util.Objects;
 
 @Embeddable
 @Getter
@@ -21,5 +23,9 @@ public class Tag {
         Tag tag = new Tag();
         tag.tag = value;
         return tag;
+    }
+
+    public long hash() {
+        return Utils.hash(tag);
     }
 }

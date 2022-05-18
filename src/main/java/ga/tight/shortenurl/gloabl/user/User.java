@@ -17,9 +17,6 @@ public class User {
 
     private String mail;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<ShortenUrl> urls;
-
     @Builder
     public User(String mail) {
         this.mail = mail;

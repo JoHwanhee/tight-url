@@ -26,7 +26,7 @@ public class ShortenRegisterService {
         this.statisticsRepository = statisticsRepository;
     }
 
-    public ResponseRegisterShortenDto register(RegisterShortenDto registerShortenDto) {
+    public ShortenUrl register(RegisterShortenDto registerShortenDto) {
         User user = null;
         if(registerShortenDto.hasUserId()) {
             user = getUser(registerShortenDto);
@@ -35,15 +35,7 @@ public class ShortenRegisterService {
         ShortenUrl url = repository.save(ShortenUrl.of(registerShortenDto.getUrl(), user));
         statisticsRepository.save(new Statistics(url, 0L));
 
-        Long userId = null;
-        if(url.hasUser())
-            userId = url.getUser().getId();
-
-        return new ResponseRegisterShortenDto(
-                url.getTagValue(),
-                url.getRedirectUrl(),
-                userId
-        );
+        return url;
     }
 
     private User getUser(RegisterShortenDto registerShortenDto) {

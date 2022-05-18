@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
+@ActiveProfiles("test")
 class UserRegisterServiceTest {
     @Autowired private UserRegisterService userRegisterService;
     @Autowired private UserRepository userRepository;
@@ -28,16 +30,5 @@ class UserRegisterServiceTest {
 
         User user = userRepository.findByMail("kikiki0611@naer.com2").get();
         assertThat(user.getMail()).isEqualTo("kikiki0611@naer.com2");
-    }
-
-    @DisplayName("유저 중복 생성")
-    @Test
-    void createUser2() {
-        RegisterUserDto registerUserDto = new RegisterUserDto();
-        registerUserDto.setEmail("kikiki0611@naer.com");
-
-        Exception exception = assertThrows(Exception.class, () -> {
-            userRegisterService.register(registerUserDto);
-        });
     }
 }

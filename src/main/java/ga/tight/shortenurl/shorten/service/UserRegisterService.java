@@ -18,14 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserRegisterService {
     private final UserRepository userRepository;
 
-    public ResponseRegisterUserDto register(RegisterUserDto dto) {
+    public User register(RegisterUserDto dto) {
         assert dto != null : "user dto must be not null.";
 
         User user = new User(dto.getEmail());
         userRepository.save(user);
 
-        return new ResponseRegisterUserDto(
-                user.getMail()
-        );
+        return user;
     }
 }
