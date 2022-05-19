@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -35,8 +36,9 @@ class ShortenQueryServiceTest {
                         .url("hello.com")
                 .build());
 
-        List<ResponseQueryShorten> shortenUrlList = shortenQueryService.findByUserId(11L);
+        List<ResponseQueryShorten> shortenUrlList = shortenQueryService.findByUserId(user.getId());
 
-
+        assertThat(shortenUrlList).isNotNull();
+        assertThat(shortenUrlList.size()).isNotZero();
     }
 }

@@ -3,8 +3,8 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - /etc/letsencrypt:/etc/letsencrypt
@@ -15,5 +15,5 @@ services:
   api:
     image: kikiki0611/shorten-app:latest
     ports:
-      - 8080:8080
+      - "8080:8080"
     container_name: api
