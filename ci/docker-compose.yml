@@ -1,4 +1,4 @@
-version: '3'
+version: "3.3"
 
 services:
   proxy:
@@ -13,23 +13,28 @@ services:
       - ./appdata/certbot/conf:/etc/letsencrypt
       - ./appdata/certbot/data:/var/www/certbot
       - ./www/:/var/www/
-    depends_on:
-      - api_server
+#    depends_on:
+#      - api
+    networks:
+      - our_net
 
-  api:
-    container_name: api
-    image: kikiki0611/shorten-app:latest
-    ports:
-      - "8080"
-    restart: unless-stopped
+#  api:
+#    container_name: api
+#    image: kikiki0611/shorten-app:latest
+#    restart: unless-stopped
+#    networks:
+#      - our_net
 
   certbot:
+    container_name: certbot
     image: certbot/certbot:latest
     command: certonly --webroot --webroot-path=/var/www/certbot --email kikiki0611@gmail.com --agree-tos --no-eff-email -d tight.ga
     volumes:
       - ./appdata/certbot/conf:/etc/letsencrypt
       - ./appdata/certbot/logs:/var/log/letsencrypt
       - ./appdata/certbot/data:/var/www/certbot
+    depends_on:
+      - proxy
 
 networks:
   our_net:

@@ -17,26 +17,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @AllArgsConstructor
 @Slf4j
-public class ShortenQueryService {
-    private final ShortenRepository shortenRepository;
+public class StatisticsService {
+    private final StatisticsRepository statisticsRepository;
 
-    @Cacheable(value = "tag", key = "#tag")
-    public ShortenUrl findByTag(String tag) {
-        Tag tagToFind = Tag.of(NullChecker.orElseThrow(tag));
-        return shortenRepository.findShortenUrlByTagHashCode(tagToFind.hash())
-                .orElseThrow(() -> new IllegalArgumentException("has no value"));
-    }
+    public void increase(ShortenUrl url) {
+        Statistics statistics = statisticsRepository.findByShortenUrl(url)
+                .orElseGet(() -> new Statistics(url, 0L));
+        statistics.increase();
 
-    public List<ResponseQueryShorten> findByUserId(Long id) {
-        List<ShortenUrl> urls = shortenRepository.findByUserId(id);
-
-        return urls.stream()
-                   .map(url -> new ResponseQueryShorten(
-                           url.getRedirectUrl()
-                   ))
-                .collect(Collectors.toList());
+        statisticsRepository.save(statistics);
     }
 }

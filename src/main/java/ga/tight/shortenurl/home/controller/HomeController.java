@@ -7,6 +7,7 @@ import ga.tight.shortenurl.shorten.dto.response.ResponseQueryShorten;
 import ga.tight.shortenurl.shorten.dto.response.ResponseRegisterShortenDto;
 import ga.tight.shortenurl.shorten.service.ShortenQueryService;
 import ga.tight.shortenurl.shorten.service.ShortenRegisterService;
+import ga.tight.shortenurl.shorten.service.StatisticsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 public class HomeController {
 
     private final ShortenRegisterService shortenRegisterService;
+    private final StatisticsService statisticsService;
     private final ShortenQueryService shortenQueryService;
     private final ModelMapper modelMapper;
 
@@ -34,11 +36,14 @@ public class HomeController {
     public RedirectView redirectUrl(
             @PathVariable("tag") String tag
     ) {
+        log.info(tag);
         try
         {
-            ResponseQueryShorten url = shortenQueryService.findByTag(tag);
-            RedirectView redirectView = new RedirectView(url.getFullUrl());
+            ShortenUrl url = shortenQueryService.findByTag(tag);
+            RedirectView redirectView = new RedirectView(url.getRedirectUrl());
             redirectView.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
+
+            statisticsService.increase(url);
             return redirectView;
         }
         catch (Exception e) {
