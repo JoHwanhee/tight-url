@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
 @AllArgsConstructor
 public class ResponseRegisterShortenDto {
     private String tag;
-    private String fullUrl;
+    private String originUrl;
     private Long userId;
 
     public ResponseRegisterShortenDto(String tagValue) {

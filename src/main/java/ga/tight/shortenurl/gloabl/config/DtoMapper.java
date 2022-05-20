@@ -12,3 +12,8 @@ class DtoMapper extends ModelMapper {
         getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
     }
 }
+
+
+class Test {
+
+}

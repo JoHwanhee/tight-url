@@ -19,7 +19,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.OAS_30)
                 .useDefaultResponseMessages(false)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("ga.tight"))
+                .apis(RequestHandlerSelectors.basePackage("ga.tight.shortenurl.shorten"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());
@@ -27,8 +27,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Practice Swagger")
-                .description("practice swagger config")
+                .title("단축 URL 서비스 API")
+                .description("단축 URL 서비스 api를 소개합니다!")
                 .version("1.0")
                 .build();
     }

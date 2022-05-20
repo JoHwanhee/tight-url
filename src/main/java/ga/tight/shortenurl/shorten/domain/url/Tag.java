@@ -5,7 +5,6 @@ import ga.tight.shortenurl.gloabl.Utils;
 import lombok.Getter;
 
 import javax.persistence.Embeddable;
-import java.util.Objects;
 
 @Embeddable
 @Getter

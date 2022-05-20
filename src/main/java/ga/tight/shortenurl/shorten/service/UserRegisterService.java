@@ -1,10 +1,7 @@
 package ga.tight.shortenurl.shorten.service;
 
 import ga.tight.shortenurl.gloabl.user.User;
-import ga.tight.shortenurl.shorten.dto.request.RegisterShortenDto;
 import ga.tight.shortenurl.shorten.dto.request.RegisterUserDto;
-import ga.tight.shortenurl.shorten.dto.response.ResponseRegisterShortenDto;
-import ga.tight.shortenurl.shorten.dto.response.ResponseRegisterUserDto;
 import ga.tight.shortenurl.shorten.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,8 +1,5 @@
 package ga.tight.shortenurl.shorten.domain.url;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 public class RandomString {
     private String value;
     private static String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

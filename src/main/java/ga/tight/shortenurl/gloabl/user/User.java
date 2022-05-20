@@ -1,12 +1,12 @@
 package ga.tight.shortenurl.gloabl.user;
 
-import ga.tight.shortenurl.shorten.domain.url.ShortenUrl;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 @NoArgsConstructor(access=AccessLevel.PROTECTED)
