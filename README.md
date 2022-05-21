@@ -28,3 +28,12 @@ Response
 GET /{tag}
 
 HTTP 301 (moved permanently)
+
+
+# Build
+
+```./gradlew build```
+
+# Docker
+
+```docker run -p 80:8080 kikiki0611/shorten-app```
