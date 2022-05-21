@@ -2,12 +2,14 @@ package ga.tight.shortenurl.home.controller;
 
 import ga.tight.shortenurl.home.dto.RequestRegisterUrlForm;
 import ga.tight.shortenurl.shorten.domain.url.ShortenUrl;
+import ga.tight.shortenurl.shorten.domain.url.Tag;
 import ga.tight.shortenurl.shorten.dto.request.RegisterShortenDto;
 import ga.tight.shortenurl.shorten.dto.response.ResponseQueryShorten;
 import ga.tight.shortenurl.shorten.dto.response.ResponseRegisterShortenDto;
 import ga.tight.shortenurl.shorten.service.ShortenQueryService;
 import ga.tight.shortenurl.shorten.service.ShortenRegisterService;
 import ga.tight.shortenurl.shorten.service.StatisticsService;
+import ga.tight.shortenurl.shorten.usecase.ShortenQueryUseCase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -28,30 +30,33 @@ import javax.servlet.http.HttpServletRequest;
 public class HomeController {
 
     private final ShortenRegisterService shortenRegisterService;
-    private final StatisticsService statisticsService;
-    private final ShortenQueryService shortenQueryService;
+    private final ShortenQueryUseCase shortenQueryUseCase;
     private final ModelMapper modelMapper;
+
+    @GetMapping("/")
+    public String home() {
+        return "home";
+    }
 
     @GetMapping("/{tag}")
     public RedirectView redirectUrl(
-            @PathVariable("tag") String tag
+            @PathVariable("tag") String requestTag
     ) {
-        log.info(tag);
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl("/");
+        redirectView.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
+
         try
         {
-            ShortenUrl url = shortenQueryService.findByTag(tag);
-            RedirectView redirectView = new RedirectView(url.getRedirectUrl());
-            redirectView.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
-
-            statisticsService.increase(url);
-            return redirectView;
+            Tag tag = Tag.of(requestTag);
+            ShortenUrl url = shortenQueryUseCase.queryAndIncrease(tag);
+            redirectView.setUrl(url.getRedirectUrl());
         }
         catch (Exception e) {
-            log.error(e.getMessage(), e.getCause());
-            RedirectView redirectView = new RedirectView("/");
-            redirectView.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
-            return redirectView;
+
         }
+
+        return redirectView;
     }
 
 
@@ -76,10 +81,4 @@ public class HomeController {
 
         return mav;
     }
-
-    @GetMapping("/")
-    public String home() {
-        return "home";
-    }
-
 }

@@ -6,11 +6,17 @@ public class NullChecker {
     public static String orElseThrow(String input) {
         String value = Optional.ofNullable(input)
                 .orElseThrow(() -> new IllegalArgumentException("input value is null."));
-        value = value.replace(" ", "");
-        if(value.isBlank() || value.isEmpty()) {
+
+        String tempValue = value.replace(" ", "");
+        if(tempValue.isBlank() || tempValue.isEmpty()) {
             throw new IllegalArgumentException("input value is blank or empty.");
         }
 
         return value;
+    }
+
+    public static Long orElseThrow(Long input) {
+        return Optional.ofNullable(input)
+                .orElseThrow(() -> new IllegalArgumentException("input value is null."));
     }
 }

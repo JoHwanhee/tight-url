@@ -69,6 +69,10 @@ public class ShortenUrl {
         return url.getUrl();
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public Tag getTag() {
         return tag;
     }

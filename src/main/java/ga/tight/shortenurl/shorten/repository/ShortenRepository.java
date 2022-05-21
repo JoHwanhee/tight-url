@@ -15,6 +15,6 @@ public interface ShortenRepository extends JpaRepository<ShortenUrl, Long> {
 
     @Query("SELECT s FROM ShortenUrl AS s " +
            "WHERE s.user.id =:id")
-    List<ShortenUrl> findByUserId(@Param("id") Long id);
+    Optional<List<ShortenUrl>> findByUserId(@Param("id") Long id);
 }
 

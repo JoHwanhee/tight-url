@@ -1,13 +1,16 @@
 package ga.tight.shortenurl.shorten.domain.url;
 
+import lombok.Builder;
+
 public class RandomString {
     private String value;
     private static String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
             + "0123456789"
             + "abcdefghijklmnopqrstuvxyz";
 
-    public RandomString(int n) {
-        this.value = generate(n);
+    @Builder
+    private RandomString(int size) {
+        this.value = generate(size);
     }
 
     @Override

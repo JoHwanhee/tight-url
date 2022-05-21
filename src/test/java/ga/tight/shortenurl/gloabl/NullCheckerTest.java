@@ -9,7 +9,7 @@ class NullCheckerTest {
     @Test
     void nullCheck() {
         assertThrows(IllegalArgumentException.class, () -> {
-            String data = NullChecker.orElseThrow(null);
+            String data = NullChecker.orElseThrow((String) null);
         });
     }
 

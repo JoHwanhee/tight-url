@@ -58,12 +58,10 @@ class ShortenRegisterServiceTest {
         // then
         Tag tag = Tag.of(res.getTagValue());
         ShortenUrl saved = repository.findShortenUrlByTagHashCode(tag.hash()).get();
-        Statistics statistics = statisticsRepository.findByShortenUrl(saved).get();
 
         assertThat(res.getTagValue().length()).isEqualTo(6);
         assertThat(res.getTagValue()).isEqualTo(saved.getTagValue());
         assertThat(saved.hasUser()).isEqualTo(false);
-        assertThat(statistics.getCount()).isEqualTo(0);
     }
 
 
@@ -81,12 +79,10 @@ class ShortenRegisterServiceTest {
         // then
         Tag tag = Tag.of(res.getTagValue());
         ShortenUrl saved = repository.findShortenUrlByTagHashCode(tag.hash()).get();
-        Statistics statistics = statisticsRepository.findByShortenUrl(saved).get();
 
         assertThat(res.getTagValue().length()).isEqualTo(6);
         assertThat(res.getTagValue()).isEqualTo(saved.getTagValue());
         assertThat(saved.hasUser()).isEqualTo(true);
         assertThat(saved.getUser().getId()).isEqualTo(savedUser.getId());
-        assertThat(statistics.getCount()).isEqualTo(0);
     }
 }

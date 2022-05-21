@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,19 +25,15 @@ public class ShortenQueryService {
     private final ShortenRepository shortenRepository;
 
     @Cacheable(value = "tag", key = "#tag")
-    public ShortenUrl findByTag(String tag) {
-        Tag tagToFind = Tag.of(NullChecker.orElseThrow(tag));
-        return shortenRepository.findShortenUrlByTagHashCode(tagToFind.hash())
+    public ShortenUrl findByTag(Tag tag) {
+        return shortenRepository.findShortenUrlByTagHashCode(tag.hash())
                 .orElseThrow(() -> new IllegalArgumentException("has no value"));
     }
 
-    public List<ResponseQueryShorten> findByUserId(Long id) {
-        List<ShortenUrl> urls = shortenRepository.findByUserId(id);
+    public List<ShortenUrl> findByUserId(Long id) {
+        Long userId = NullChecker.orElseThrow(id);
 
-        return urls.stream()
-                   .map(url -> new ResponseQueryShorten(
-                           url.getRedirectUrl()
-                   ))
-                .collect(Collectors.toList());
+        return shortenRepository.findByUserId(userId)
+                .orElseThrow();
     }
 }

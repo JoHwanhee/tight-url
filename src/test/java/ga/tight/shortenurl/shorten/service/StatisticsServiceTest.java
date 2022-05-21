@@ -22,16 +22,18 @@ class StatisticsServiceTest {
 
     @Autowired StatisticsService statisticsService;
 
-    @DisplayName("히트 수치 올라가야함")
+    @DisplayName("히트 수치 테스트")
     @Test
     void increase() {
+        // given
         RegisterShortenDto dto = new RegisterShortenDto(0L, "https://google.com");
         ShortenUrl url = shortenRegisterService.register(dto);
 
+        // when
         statisticsService.increase(url);
 
-        Statistics statistics = repository.findByShortenUrl(url).get();
-
+        // then
+        Statistics statistics = repository.findByShortenUrl(url.getId()).get();
         assertAll(
                 () -> assertThat(statistics).isNotNull(),
                 () -> assertThat(statistics.getCount()).isGreaterThan(0)

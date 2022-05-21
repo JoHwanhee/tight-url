@@ -36,7 +36,7 @@ class ShortenQueryServiceTest {
                         .url("hello.com")
                 .build());
 
-        List<ResponseQueryShorten> shortenUrlList = shortenQueryService.findByUserId(user.getId());
+        List<ShortenUrl> shortenUrlList = shortenQueryService.findByUserId(user.getId());
 
         assertThat(shortenUrlList).isNotNull();
         assertThat(shortenUrlList.size()).isNotZero();

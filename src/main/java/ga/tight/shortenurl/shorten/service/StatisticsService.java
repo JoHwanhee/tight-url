@@ -24,7 +24,7 @@ public class StatisticsService {
     private final StatisticsRepository statisticsRepository;
 
     public void increase(ShortenUrl url) {
-        Statistics statistics = statisticsRepository.findByShortenUrl(url)
+        Statistics statistics = statisticsRepository.findByShortenUrl(url.getId())
                 .orElseGet(() -> new Statistics(url, 0L));
         statistics.increase();
 
