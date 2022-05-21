@@ -4,9 +4,10 @@
 
 # Webpage
 
-https://tight.ga
+- https://tight.ga
 
 # API
+- 스웨거 https://tight.ga/swagger-ui/
 
 ### URL 등록
 
