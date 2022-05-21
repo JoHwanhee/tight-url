@@ -36,4 +36,6 @@ HTTP 301 (moved permanently)
 
 # Docker
 
-```docker run -p 80:8080 kikiki0611/shorten-app```
+```docker build . -t shorten-app```
+
+```docker run -p 80:8080 shorten-app```
