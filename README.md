@@ -1,15 +1,13 @@
 # Tight-url
 
-심플한 URL 쇼터 프로젝트 입니다. 간단하게 URL 쇼팅을 할 수 있으며, 해당 URL에 대한 hit 수 카운트까지 가능합니다.
+It is a simple URL shorter project. You can do URL shorting simply, and even count the number of hits for that URL.
 
 # Webpage
 
 - https://tight.ga
 
 # API
-- 스웨거 https://tight.ga/swagger-ui/
-
-### URL 등록
+- Swagger https://tight.ga/swagger-ui/
 
 POST /api/shorten-urls
 ```json
@@ -26,8 +24,6 @@ Response
   "userId": 0
 }
 ```
-
-### 조회
 
 GET /{tag}
 
